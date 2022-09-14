@@ -6,7 +6,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import postRoutes from './routes/posts.js';
-import userRoutes from './routes/users.js'
+import userRoutes from './routes/users.js';
+import commentRoutes from "./routes/comment.js"
 
 const app = express();
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(cors());
 
 app.use('/user', userRoutes);
 app.use('/posts', postRoutes);
+app.use('/posts', commentRoutes)
 
 app.get('/', (req, res) => {
     res.send("Welcome to inspiredformen API")

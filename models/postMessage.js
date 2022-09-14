@@ -16,15 +16,20 @@ const postSchema = mongoose.Schema({
     video:String,
     message:String,
     likes: {
-        type: Number,
-        default: 0
+        type: [String],
+        default: []
+    },
+    comment:{
+        type: [String],
+        default:[]
+        // comment:[String],
+        // postedBy:[String]
     },
     createdAt: {
         type:Date,
         default:new Date()
     },
-    // _id: Number
-
+ 
 })
 postSchema.plugin(AutoIncrement, {inc_field: 'id'});
 // postSchema.plugin(AutoIncrement)
