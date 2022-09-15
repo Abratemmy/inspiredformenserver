@@ -18,7 +18,7 @@ app.use(cors());
 
 app.use('/user', userRoutes);
 app.use('/posts', postRoutes);
-app.use('/posts', commentRoutes)
+// app.use('/posts', commentRoutes)
 
 app.get('/', (req, res) => {
     res.send("Welcome to inspiredformen API")

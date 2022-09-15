@@ -5,9 +5,6 @@ import Inc from "mongoose-sequence";
 const AutoIncrement = Inc(mongoose); 
 
 
-// import AutoIncrement from "mongoose/mongoose-sequence"
-// import AutoIncrementFactory from "mongoose-sequence"
-
 const postSchema = mongoose.Schema({
     topic: String,
     postername:String,
@@ -19,12 +16,12 @@ const postSchema = mongoose.Schema({
         type: [String],
         default: []
     },
-    comment:{
-        type: [String],
-        default:[]
-        // comment:[String],
-        // postedBy:[String]
-    },
+    usercomment:[
+        {
+            comment:String,
+            postedBy:String
+        }
+    ],
     createdAt: {
         type:Date,
         default:new Date()
