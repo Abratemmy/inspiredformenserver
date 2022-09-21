@@ -1,20 +1,24 @@
 import mongoose from "mongoose";
 import PostMessage from "../models/postMessage.js";
 
+function timeout(number){
+    return new Promise(res => setTimeout=(res, number))
+}
 export const getPosts = async(req, res) => {
     try {
         const postMessages =await PostMessage.find();
         res.status(200).json(postMessages)
+        await timeout(300)
     } catch (error) {
         res.status(404).json({ message: error.message})
     }
 }
 
 export const getPost = async (req, res ) => {
-    const { id } = req.params;
+    const { topic} = req.params;
 
     try {
-        const post = await PostMessage.findById(id);
+        const post = await PostMessage.findOne({topic: topic});
         res.status(200).json(post)
     } catch (error) {
         res.status(404).json({ message: error.message })
@@ -81,6 +85,14 @@ export const likePost = async(req, res) => {
 export const commentPost = async(req, res) => {
     const { id } = req.params;
     const { value } = req.body;
+
+    // console.log(`Adding comment to post with id ${id}`)
+
+    const post= await PostMessage.findById(id);
+
+    if(!post){
+        return res.status(404).json({ status: false, message: `Could not find post with id ${id}`})
+    }
     const update = { 
         $push: {
           usercomment: {
@@ -90,8 +102,19 @@ export const commentPost = async(req, res) => {
         }
       }
     const updatedPost = await PostMessage.findByIdAndUpdate(id, update, {new: true});
-    console.log(JSON.stringify(value))
+    // console.log("value controller", JSON.stringify(value))
  
-    res.json(updatedPost)
+    res.status(200).json(updatedPost)
 
+}
+
+export const fetchComment = async(req, res) => {
+    const {id } = req.params;
+
+    try {
+        const post = await PostMessage.findById(id);
+        res.status(200).json(post)
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
 }

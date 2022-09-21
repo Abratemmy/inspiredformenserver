@@ -19,7 +19,12 @@ const postSchema = mongoose.Schema({
     usercomment:[
         {
             comment:String,
-            postedBy:String
+            postedBy:String,
+            id:{type: String},
+            createdAt: {
+                type:Date,
+                default:new Date()
+            },
         }
     ],
     createdAt: {
