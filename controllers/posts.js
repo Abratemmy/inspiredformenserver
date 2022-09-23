@@ -15,10 +15,13 @@ export const getPosts = async(req, res) => {
 }
 
 export const getPost = async (req, res ) => {
-    const { topic} = req.params;
+    let { topic} = req.params;
+    // topic.replace(/\s+/g, '-') = req.params
 
     try {
         const post = await PostMessage.findOne({topic: topic});
+        // const post = await PostMessage.findOne({topic: topic.replace(/\s+/g, '-')});
+        console.log("get a single post", post)
         res.status(200).json(post)
     } catch (error) {
         res.status(404).json({ message: error.message })
