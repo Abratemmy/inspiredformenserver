@@ -15,13 +15,13 @@ export const getCategory = async(req, res) => {
     }
 }
 
-// export const createCategory = async(req, res) => {
-//     const post = req.body;
-//     const newPost = new Category(post)
+export const createCategory = async(req, res) => {
+    const post = req.body;
+    const newPost = new Category(post)
 
-//     try {
-//         await newPost.save();
-//     } catch (error) {
-//         res.status(409).json({ message: error.message})
-//     }
-// }
+    try {
+        await newPost.save();
+    } catch (error) {
+        res.status(409).json({ message: error.message})
+    }
+}
