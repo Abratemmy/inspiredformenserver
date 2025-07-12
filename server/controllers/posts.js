@@ -31,33 +31,26 @@ const getPosts = (req, res) => {
 
 
 const getPost = async (req, res) => {
-    const inputSlug = req.params.topic;
-  
-    const slugify = (text) =>
-      text
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '')
-        .replace(/-+/g, '-');
-  
-    const cleanedSlug = slugify(inputSlug);
-  
-    const q = "SELECT * FROM posts";
-  
-    db.query(q, [], (err, posts) => {
-      if (err) return res.status(500).json(err);
-  
-      const matchedPost = posts.find(post => slugify(post.topic) === cleanedSlug);
-  
-      if (!matchedPost) {
-        console.log(`No match found for slug: ${cleanedSlug}`);
-        return res.status(404).json("Post not found!");
-      }
-  
-      return res.status(200).json(matchedPost);
+    // }
+    let { topic } = req.params;
+
+    // Convert the slug (todays-topic-is-life) back to normal (todays topic is life)
+    const normalTopic = topic.split("-").join(" ");
+
+    const q = "SELECT * FROM posts WHERE LOWER(topic) = LOWER(?)";
+
+    db.query(q, [normalTopic], (err, data) => {
+        if (err) {
+            return res.status(500).json(err);
+        }
+        if (data.length === 0) {
+            return res.status(404).json("Post not found!");
+        }
+        console.log("Fetched single posts", data[0])
+        return res.status(200).json(data[0]);
     });
-};
-  
+
+}
 
 const createPost = async (req, res) => {
     const token = req.cookies.accessToken

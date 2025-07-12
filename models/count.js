@@ -1,12 +1,12 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const counterSchema = ({
-    id:{
+    id: {
         type: String
     },
-    seq:{
+    seq: {
         type: Number
     }
 })
 const counterModel = mongoose.model("counter", counterSchema);
-export default counterModel;
+module.exports = counterModel;
